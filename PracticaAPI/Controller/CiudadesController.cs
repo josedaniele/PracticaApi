@@ -9,28 +9,33 @@ namespace PracticaAPI.Controller
 
     public class CiudadesController : ControllerBase
     {
+        //Inyeccion de dependencia
         private CiudadService _ciudadService;
-        public CiudadesController(CiudadService Ciud)
+
+        //Constructor
+        public CiudadesController(CiudadService ciud)
         {
-            _ciudadService = Ciud;
+            _ciudadService = ciud;
         }
+        //Metodos de consulta
         [HttpGet]
-        public IActionResult GetCiudades()
+        public IActionResult ObtenerCiudades()
         {
-            return Ok(_ciudadService.GetCiudades());
+            var Ciudades = _ciudadService.GetCiudades();
+            return Ok(Ciudades);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCiudadesId(int id)
+        public IActionResult GetCiudadbYId(int id)
         {
             var ciudad = _ciudadService.GetCiudad(id);
-            if(ciudad != null) {
-            
-            return Ok(ciudad);
+            if(ciudad == null) 
+            {
+             return BadRequest("No encontrado");
             }
             else
             {
-                return BadRequest();
+                return Ok(ciudad.Name);
             }
 
         }
